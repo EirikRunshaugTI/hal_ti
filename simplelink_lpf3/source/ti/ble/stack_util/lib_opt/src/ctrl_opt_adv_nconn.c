@@ -17,7 +17,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -208,6 +208,11 @@ void OPT_hci_tl_ClearAdvSet(void)
 uint8_t OPT_processAdvExtraHCICmd(hciPacket_t* pMsg)
 {
     return processAdvExtraHCICmd(pMsg);
+}
+
+void OPT_hci_tl_initAdvCallbacks(void)
+{
+    hci_tl_initAdvCallbacks();
 }
 
 #endif /* defined(CTRL_ADV_NCONN_CFG) */

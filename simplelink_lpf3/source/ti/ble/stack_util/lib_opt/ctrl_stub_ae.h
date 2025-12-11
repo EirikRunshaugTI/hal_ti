@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -112,6 +112,7 @@ extern bool llAE_NextAdvIsExtended(void);
 extern uint8 LL_AE_GetNextChannel(void);
 extern void LL_AE_GetTxUsageParams(llTxUsageParams_t* pExtAdvTxParams);
 extern void setAeBleUserConfig(void);
+
 
 // Wrapper functions for the feature implementations
 llStatus_t OPT_llSetExtendedAdvParams(advSet_t* pAdvSet, aeSetParamCmd_t* pCmdParams);

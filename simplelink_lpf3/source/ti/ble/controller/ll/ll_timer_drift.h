@@ -11,7 +11,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2009-2025, Texas Instruments Incorporated
+ Copyright (c) 2009-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -99,6 +99,9 @@ extern "C"
 /*******************************************************************************
  * MACROS
  */
+// timeElapsedInUs is in uS
+// scaFactor is in PPM
+#define LL_TIMER_DRIFT_CALC(timeElapsedInUs, scaFactor)   (((((uint32_t) CONVERT_1US_TO_0_625MS(timeElapsedInUs)) * scaFactor) / RAT_TICKS_IN_100US) + 1)
 
 /*******************************************************************************
  * CONSTANTS
@@ -130,6 +133,7 @@ extern "C"
 extern uint16 llCalcScaFactor( uint8 centralSCA );
 extern uint32 llCalcPeriodicScaDriftPerInterval( uint8 perAdvSCA , uint16 periodicInterval);
 uint32_t llScaOrdValueToPPM( uint8_t ordSCA );
+uint8_t llGetScaIndex( uint16_t scaFactor );
 
 #ifdef __cplusplus
 }

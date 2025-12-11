@@ -9,7 +9,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2009-2025, Texas Instruments Incorporated
+ Copyright (c) 2009-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -115,7 +115,8 @@ extern "C"
 #define HCI_CTE_SAMPLE_RATE_4MHZ                 (4)
 #define HCI_CTE_SAMPLE_RATE_1MHZ                 (1)
 
-#define HCI_PERIODIC_ADV_REPORT_MAX_DATA         (0xFF - HCI_PERIODIC_ADV_REPORT_EVENT_LEN)
+#define HCI_PERIODIC_ADV_REPORT_V1_MAX_DATA      (0xFF - HCI_PADV_REPORT_EVENT_V1_LEN)
+#define HCI_PERIODIC_ADV_REPORT_V2_MAX_DATA      (0xFF - HCI_PADV_REPORT_EVENT_V2_LEN)
 #define HCI_PERIODIC_ADV_REPORT_DATA_INCOMPLETE  (1)
 /*******************************************************************************
  * TYPEDEFS

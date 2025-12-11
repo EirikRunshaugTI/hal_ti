@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -93,6 +93,7 @@ extern int32_t DbgInf_init(uint16_t domainBitmap);
 extern int32_t DbgInf_clear(uint16_t domainBitmap);
 extern uint16_t DbgInf_get(uint8_t* const pBuf, uint16_t len, uint16_t reqDomainBitmap);
 extern int32_t DbgInf_halt(void);
+
 
 // Wrapper functions for the feature implementations
 uint8_t OPT_llDbgInf_addSchedRec(taskInfo_t* const llTask);

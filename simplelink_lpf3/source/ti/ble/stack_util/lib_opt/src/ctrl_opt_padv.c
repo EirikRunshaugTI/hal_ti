@@ -17,7 +17,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -210,6 +210,16 @@ advSet_t* OPT_LL_AE_GetNextAdvSet(void)
 void OPT_LL_GetPeriodicTxUsageParams(llTxUsageParams_t* pPeriodicTxParams)
 {
     LL_GetPeriodicTxUsageParams(pPeriodicTxParams);
+}
+
+llPeriodicAdvSetType_e OPT_LL_GetPerodicTypeByAdvHandle(uint8_t advHandle)
+{
+    return LL_GetPerodicTypeByAdvHandle(advHandle);
+}
+
+llStatus_t OPT_LL_GetPerodicSyncTransferInfoByAdvHandle(uint8_t advHandle, llPeriodicSyncTransferInfo_t* pPeriodicSyncTransferData)
+{
+    return LL_GetPerodicSyncTransferInfoByAdvHandle(advHandle, pPeriodicSyncTransferData);
 }
 
 #endif /* defined(USE_PERIODIC_ADV) */

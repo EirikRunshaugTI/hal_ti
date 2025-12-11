@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -102,6 +102,7 @@ extern hciStatus_t hci_ext_SendPowerControlRequestCmd(uint16_t connHandle, uint8
 extern hciStatus_t hci_le_SetTransmitPowerReportingEnableCmd(uint16_t connHandle, uint8_t localEnable, uint8_t remoteEnable);
 extern hciStatus_t hci_le_EnhancedReadTransmitPowerLevelCmd(uint16_t connHandle, uint8_t txPhy);
 extern hciStatus_t hci_le_ReadRemoteTransmitPowerLevelCmd(uint16_t connHandle, uint8_t txPhy);
+
 
 // Wrapper functions for the feature implementations
 void OPT_LL_PwrCtrl_Close(void);

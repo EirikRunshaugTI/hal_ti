@@ -9,7 +9,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -133,9 +133,9 @@ typedef RCL_Command_TxPower llTxPowerRfCmd_t;
 void LL_TxPower_SetTxPowerCmd(uint32_t *pRfCmd, int8_t txPower, bool fraction);
 
 /*******************************************************************************
- * @fn          LL_TxPower_SetTxPowerRfType
+ * @fn          LL_TxPower_GetTxPowerRfType
  *
- * @brief       Set the tx power type by the tx power dBm and fraction value
+ * @brief       Get a tx power type by the tx power dBm and fraction value
  *
  * input parameters
  *
@@ -149,7 +149,7 @@ void LL_TxPower_SetTxPowerCmd(uint32_t *pRfCmd, int8_t txPower, bool fraction);
  *
  * @return      Tx power type in llTxPowerRfCmd_t type
  */
-llTxPowerRfCmd_t LL_TxPower_SetTxPowerRfType( int8_t txPowerDbm,
+llTxPowerRfCmd_t LL_TxPower_GetTxPowerRfType( int8_t txPowerDbm,
                                               bool fraction );
 
 /*******************************************************************************

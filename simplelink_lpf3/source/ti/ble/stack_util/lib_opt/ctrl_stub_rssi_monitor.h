@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -100,6 +100,7 @@ extern hciStatus_t hci_ext_RssiMon_UnregCmd(llRssiMonCbHandle_t regHandle);
 extern hciStatus_t hci_ext_RssiMon_SetConfigCmd(int8_t incomeRssiWeight, uint8_t minRssiSamples);
 extern hciStatus_t hci_ext_RssiMon_GetConfigCmd(void);
 extern hciStatus_t hci_ext_RssiMon_GetRssiStatCmd(uint16_t connHandle);
+
 
 // Wrapper functions for the feature implementations
 llStatus_t OPT_LL_RssiMon_Open(void);

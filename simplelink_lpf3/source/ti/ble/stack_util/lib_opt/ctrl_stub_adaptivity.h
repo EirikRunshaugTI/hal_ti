@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -94,6 +94,7 @@ extern void LL_SDAA_Init(void);
 extern void LL_SDAA_FreeDynamicMemory(void);
 extern void LL_SDAA_PostProcess(void);
 extern void setSddaBleUserConfig(void);
+
 
 // Wrapper functions for the feature implementations
 uint8 OPT_LL_SDAA_ControlTxAndGetStartType(taskInfo_t* nextConnTask, taskInfo_t* secTask, uint8 startTaskType);

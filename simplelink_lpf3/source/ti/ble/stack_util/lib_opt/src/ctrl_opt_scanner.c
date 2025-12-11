@@ -17,7 +17,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -188,6 +188,16 @@ llStatus_t OPT_HCI_TL_set_scan_enable(uint16_t opcode, uint8_t* pHciParams, aeEn
 void OPT_llStopCurrentScan(void)
 {
     llStopCurrentScan();
+}
+
+void OPT_llCmdScanStartedEventHandle(void)
+{
+    llCmdScanStartedEventHandle();
+}
+
+void OPT_hci_tl_initScanCallbacks(void)
+{
+    hci_tl_initScanCallbacks();
 }
 
 #endif /* defined(CTRL_SCANNER_CFG) */

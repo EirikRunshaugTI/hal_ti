@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -84,6 +84,7 @@
 // Function prototypes for the actual implementations
 extern hciStatus_t hciCmdParserExtVendorSpecificCommon(uint8* pData, uint16 cmdOpCode);
 extern hciStatus_t hciCmdParserExtendedVendorSpecific(uint8* pData, uint16 cmdOpCode);
+
 
 // Wrapper functions for the feature implementations
 hciStatus_t OPT_hciCmdParserExtVendorSpecificCommon(uint8* pData, uint16 cmdOpCode);

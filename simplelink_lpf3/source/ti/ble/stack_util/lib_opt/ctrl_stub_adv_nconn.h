@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -110,6 +110,8 @@ extern void llFreeTaskAdv(void);
 extern void llCalculateAdvTimeGap(uint32_t* timeGap);
 extern void hci_tl_ClearAdvSet(void);
 extern uint8_t processAdvExtraHCICmd(hciPacket_t* pMsg);
+extern void hci_tl_initAdvCallbacks(void);
+
 
 // Wrapper functions for the feature implementations
 void OPT_llProcessAdvAddrResolutionTimeout(void);
@@ -137,5 +139,6 @@ void OPT_llFreeTaskAdv(void);
 void OPT_llCalculateAdvTimeGap(uint32_t* timeGap);
 void OPT_hci_tl_ClearAdvSet(void);
 uint8_t OPT_processAdvExtraHCICmd(hciPacket_t* pMsg);
+void OPT_hci_tl_initAdvCallbacks(void);
 
 #endif /* CTRL_ADV_NCONN_H_ */

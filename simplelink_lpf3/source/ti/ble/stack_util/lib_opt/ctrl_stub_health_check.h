@@ -15,7 +15,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2025, Texas Instruments Incorporated
+ Copyright (c) 2025-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -89,6 +89,7 @@ extern void llHealthUpdate(uint8_t state);
 extern void llHealthSetThreshold(uint32_t connTime, uint32_t scanTime, uint32_t initTime, uint32_t advTime);
 extern void llHealthSetAESThreshold(uint32_t aesThreshold);
 extern bool ll_healthCheckIsEnable(void);
+
 
 // Wrapper functions for the feature implementations
 int8_t OPT_llHealthCheck(void);

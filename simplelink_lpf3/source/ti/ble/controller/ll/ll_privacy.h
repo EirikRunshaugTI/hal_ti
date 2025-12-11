@@ -10,7 +10,7 @@
 
  ******************************************************************************
  
- Copyright (c) 2015-2025, Texas Instruments Incorporated
+ Copyright (c) 2015-2026, Texas Instruments Incorporated
 
  All rights reserved not granted herein.
  Limited License.
@@ -262,6 +262,8 @@ privTestflags_t         LL_PRIV_SetPrivacyTests(uint8* const peerAddr, uint8 pee
 extern llStatus_t       LL_PRIV_RemoveInvalidPeerId( rlEntry_t *pResolvingListEntry, RCL_FilterList *pDynamicFL, rankDynamicFL_t *prankFLTable );
 
 uint8_t                 LL_PRIV_ValidatePeerAddress(uint8_t *peerAddr,  uint8_t peerAddrType, uint8_t peerRLIndex);
+
+uint8_t                 LL_PRIV_ResolveRPAtoIdAddr( uint8_t devAddrType, uint8_t *devAddr,  uint8_t **pIdAddr );
 
 bool                    LL_PRIV_IsIDAddrAllowed( uint8 rlIndex );
 
