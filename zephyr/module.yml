@@ -1,6 +1,7 @@
 name: hal_ti
 build:
   cmake: .
+  kconfig: zephyr/Kconfig
   settings:
     dts_root: .
 
