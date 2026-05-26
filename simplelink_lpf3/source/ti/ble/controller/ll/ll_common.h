@@ -2096,7 +2096,7 @@ uint8 llQueryTxQueue(uint32 addr);
 uint8 llValidateConnectIndPkt( uint8 * );
 
 // Check if there is a control procedure with instant active for a specific connection
-uint8 llCheckConnInstant(llConnState_t *connPtr);
+uint8 llConnIsInstantProcedurePending(llConnState_t *connPtr);
 
 // Removes the handover connection from activeConns list
 void llRemoveHandoverConn(uint8_t *activeConnsArray, uint8_t numActiveConns);
@@ -2131,6 +2131,9 @@ bool llCompareAddresses( uint8_t *pAddr1, uint8_t addrType1,
                          uint8_t *pAddr2, uint8_t addrType2 );
 
 uint32_t llEstimateConnMinTimeLength(uint16_t connId);
+
+// Check if a received control packet opcode is a procedure with instant
+uint8_t llIsReceivedProcedureWithInstant( uint8_t opcode );
 
 #ifdef __cplusplus
 }
