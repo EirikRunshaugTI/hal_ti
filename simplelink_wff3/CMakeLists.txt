@@ -14,10 +14,17 @@ endfunction()
 
 add_subdirectory(source/ti/devices)
 if(CONFIG_WIFI_TI_CC35XX)
+  if(CONFIG_WIFI_TI_CC35XX_USE_TI_MBEDTLS AND CONFIG_MBEDTLS)
+    message(FATAL_ERROR
+      "TI SDK mbedTLS cannot be linked with Zephyr mbedTLS; select the Zephyr Wi-Fi platform instead")
+  endif()
+
   add_subdirectory(source/ti/drivers/net/wifi/wifi_host_driver)
   add_subdirectory(source/ti/drivers/net/wifi/wifi_platform/cc35xx)
   add_subdirectory(third_party/hostap)
-  add_subdirectory(third_party/mbedtls)
+  if(NOT CONFIG_WIFI_TI_CC35XX_USE_ZEPHYR_MBEDTLS)
+    add_subdirectory(third_party/mbedtls)
+  endif()
   add_subdirectory(source/ti/net/wifi_stack)
   add_subdirectory(source/ti/net/ble_interface)
 endif()
@@ -40,7 +47,7 @@ if(CONFIG_HAS_CC35XX_SDK)
     )
     if(CONFIG_WIFI_TI_CC35XX)
       zephyr_include_directories(
-	# shared between host driver and hostap
+        # shared between host driver and hostap
         source/ti/drivers/net/wifi/wifi_host_driver
         source/ti/drivers/net/wifi/wifi_host_driver/inc_common
         source/ti/drivers/net/wifi/wifi_host_driver/inc_adapt
@@ -71,10 +78,6 @@ if(CONFIG_HAS_CC35XX_SDK)
       source/ti/drivers/dma/DMAWFF3.c
       source/ti/devices/cc35xx/driverlib/dma.c
       source/ti/drivers/power/PowerWFF3.c
-      source/ti/drivers/cryptoutils/hsm/HSMXXF3.c
-      source/ti/drivers/cryptoutils/sharedresources/HSMResourceXXF3.c
-      source/ti/drivers/cryptoutils/sharedresources/CommonResourceXXF3.c
-
       source/ti/drivers/xmem/flash/FlashWFF3.c
       source/ti/drivers/xmem/XMEMWFF3.c
       source/ti/devices/cc35xx/driverlib/xip.c
@@ -90,11 +93,20 @@ if(CONFIG_HAS_CC35XX_SDK)
         third_party/mbedtls/include
         third_party/mbedtls/ti/configs
       )
-      zephyr_library_compile_definitions(
-        ENABLE_KEY_STORAGE=1
-        MBEDTLS_CONFIG_FILE="mbedtls_ti_config.h"
-      )
+      zephyr_library_compile_definitions(ENABLE_KEY_STORAGE=1)
+      if(NOT CONFIG_PSA_CRYPTO_DRIVER_CC35XX AND
+         NOT CONFIG_MBEDTLS_PSA_CRYPTO_C)
+        zephyr_library_compile_definitions(
+          MBEDTLS_CONFIG_FILE="mbedtls_ti_config.h"
+        )
+      endif()
+
+      # TI HSM sources are provided by the SDK and are not warning-clean with -Werror.
+      zephyr_library_compile_options(-Wno-error)
       zephyr_library_sources(
+        source/ti/drivers/cryptoutils/hsm/HSMXXF3.c
+        source/ti/drivers/cryptoutils/sharedresources/HSMResourceXXF3.c
+        source/ti/drivers/cryptoutils/sharedresources/CommonResourceXXF3.c
         third_party/hsmddk/include/Integration/HSMSAL/HSMSAL.c
         third_party/hsmddk/include/Integration/Adapter_DriverInit/Driver/src/adapter_init.c
         third_party/hsmddk/include/Integration/Adapter_DriverInit/Driver/src/adapter_driver_init.c
@@ -103,32 +115,6 @@ if(CONFIG_HAS_CC35XX_SDK)
         third_party/hsmddk/include/Integration/Adapter_VEX/src/adapter_vex_physicaltoken.c
         third_party/hsmddk/include/Integration/Adapter_VEX/src/adapter_vex_identity.c
         third_party/hsmddk/include/Integration/Adapter_VEX/src/adapter_vex_mailbox.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asset.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asym_parse.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asym_write.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_exchangetoken.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_init.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_internal.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_key_derivation.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_key_management.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_preprovisioned_keys.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_system.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/src/psa_key_store.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/platform.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/psa_crypto_client.c
-        third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/psa_crypto_storage.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/Driver_Flash.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs_dblock.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs_mblock.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_nor.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/its_utils.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/tfm_hal_its.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/tfm_internal_trusted_storage.c
-        third_party/hsmddk/include/Integration/Adapter_ITS/src/tfm_its_local_api.c
-        third_party/hsmddk/include/Integration/Asn1Der/src/asn1der_parse.c
-        third_party/hsmddk/include/Integration/Asn1Der/src/asn1der_write.c
         third_party/hsmddk/include/Integration/Adapter_Generic/src/adapter_interrupts.c
         third_party/hsmddk/include/Integration/DriverFramework/src/device_generic.c
         third_party/hsmddk/include/Integration/DriverFramework/src/hwpal_device_mb.c
@@ -137,18 +123,56 @@ if(CONFIG_HAS_CC35XX_SDK)
         third_party/hsmddk/include/Kit/EIP130/TokenHelper/src/eip130_token_common.c
         third_party/hsmddk/include/Kit/EIP201/src/eip201.c
         third_party/hsmddk/include/Kit/Log/src/log.c
-        kernel/zephyr/dpl/ti_psa_key_config.c
-        source/ti/drivers/cryptoutils/cryptokey/CryptoKeyPlaintext.c
-        source/ti/drivers/cryptoutils/cryptokey/CryptoKeyKeyStore_PSA.c
-        source/ti/drivers/cryptoutils/cryptokey/CryptoKeyKeyStore_PSA_helpers.c
         source/ti/drivers/TRNG.c
         source/ti/drivers/trng/TRNGXXF3HSM.c
       )
-      if(NOT CONFIG_CRYPTO_TI_CC35XX)
+      if(CONFIG_TI_CC35XX_HSM_ITS)
         zephyr_library_sources(
-          source/ti/drivers/aesecb/AESECBXXF3.c
-          source/ti/drivers/aesccm/AESCCMXXF3.c
-          source/ti/drivers/aesctr/AESCTRXXF3.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/Driver_Flash.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs_dblock.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs_mblock.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_nor.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/its_utils.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/tfm_hal_its.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/tfm_internal_trusted_storage.c
+          third_party/hsmddk/include/Integration/Adapter_ITS/src/tfm_its_local_api.c
+        )
+      endif()
+      if(CONFIG_TI_CC35XX_HSM_PSA_ADAPTER)
+        zephyr_library_include_directories(
+          third_party/mbedtls/include
+          third_party/mbedtls/ti/configs
+        )
+        zephyr_library_compile_definitions(ENABLE_KEY_STORAGE=1)
+        if(NOT CONFIG_PSA_CRYPTO_DRIVER_CC35XX AND
+           NOT CONFIG_MBEDTLS_PSA_CRYPTO_C)
+          zephyr_library_compile_definitions(
+            MBEDTLS_CONFIG_FILE="mbedtls_ti_config.h"
+          )
+        endif()
+        zephyr_library_sources(
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asset.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asym_parse.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asym_write.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_exchangetoken.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_init.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_internal.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_key_derivation.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_key_management.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_preprovisioned_keys.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_system.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/src/psa_key_store.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/platform.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/psa_crypto_client.c
+          third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/psa_crypto_storage.c
+          third_party/hsmddk/include/Integration/Asn1Der/src/asn1der_parse.c
+          third_party/hsmddk/include/Integration/Asn1Der/src/asn1der_write.c
+          kernel/zephyr/dpl/ti_psa_key_config.c
+          source/ti/drivers/cryptoutils/cryptokey/CryptoKeyPlaintext.c
+          source/ti/drivers/cryptoutils/cryptokey/CryptoKeyKeyStore_PSA.c
+          source/ti/drivers/cryptoutils/cryptokey/CryptoKeyKeyStore_PSA_helpers.c
         )
       endif()
     endif()
