@@ -14,11 +14,6 @@ endfunction()
 
 add_subdirectory(source/ti/devices)
 if(CONFIG_WIFI_TI_CC35XX)
-  if(CONFIG_WIFI_TI_CC35XX_USE_TI_MBEDTLS AND CONFIG_MBEDTLS)
-    message(FATAL_ERROR
-      "TI SDK mbedTLS cannot be linked with Zephyr mbedTLS; select the Zephyr Wi-Fi platform instead")
-  endif()
-
   add_subdirectory(source/ti/drivers/net/wifi/wifi_host_driver)
   add_subdirectory(source/ti/drivers/net/wifi/wifi_platform/cc35xx)
   add_subdirectory(third_party/hostap)
@@ -101,8 +96,6 @@ if(CONFIG_HAS_CC35XX_SDK)
         )
       endif()
 
-      # TI HSM sources are provided by the SDK and are not warning-clean with -Werror.
-      zephyr_library_compile_options(-Wno-error)
       zephyr_library_sources(
         source/ti/drivers/cryptoutils/hsm/HSMXXF3.c
         source/ti/drivers/cryptoutils/sharedresources/HSMResourceXXF3.c
@@ -128,6 +121,8 @@ if(CONFIG_HAS_CC35XX_SDK)
       )
       if(CONFIG_TI_CC35XX_HSM_ITS)
         zephyr_library_sources(
+          kernel/zephyr/dpl/ti_its_init.c
+          kernel/zephyr/dpl/ti_psa_key_config.c
           third_party/hsmddk/include/Integration/Adapter_ITS/src/Driver_Flash.c
           third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash.c
           third_party/hsmddk/include/Integration/Adapter_ITS/src/its_flash_fs.c
@@ -144,14 +139,15 @@ if(CONFIG_HAS_CC35XX_SDK)
         zephyr_library_include_directories(
           third_party/mbedtls/include
           third_party/mbedtls/ti/configs
+          third_party/hsmddk/include/Integration/Adapter_PSA/incl
+          kernel/zephyr/dpl
+        )
+        zephyr_library_compile_options(
+          -UMBEDTLS_CONFIG_FILE
+          -UTF_PSA_CRYPTO_CONFIG_FILE
+          -DMBEDTLS_CONFIG_FILE="mbedtls_ti_hsm_zephyr_config.h"
         )
         zephyr_library_compile_definitions(ENABLE_KEY_STORAGE=1)
-        if(NOT CONFIG_PSA_CRYPTO_DRIVER_CC35XX AND
-           NOT CONFIG_MBEDTLS_PSA_CRYPTO_C)
-          zephyr_library_compile_definitions(
-            MBEDTLS_CONFIG_FILE="mbedtls_ti_config.h"
-          )
-        endif()
         zephyr_library_sources(
           third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asset.c
           third_party/hsmddk/include/Integration/Adapter_PSA/src/adapter_psa_asym_parse.c
@@ -169,7 +165,6 @@ if(CONFIG_HAS_CC35XX_SDK)
           third_party/hsmddk/include/Integration/Adapter_PSA/Adapter_mbedTLS/src/psa_crypto_storage.c
           third_party/hsmddk/include/Integration/Asn1Der/src/asn1der_parse.c
           third_party/hsmddk/include/Integration/Asn1Der/src/asn1der_write.c
-          kernel/zephyr/dpl/ti_psa_key_config.c
           source/ti/drivers/cryptoutils/cryptokey/CryptoKeyPlaintext.c
           source/ti/drivers/cryptoutils/cryptokey/CryptoKeyKeyStore_PSA.c
           source/ti/drivers/cryptoutils/cryptokey/CryptoKeyKeyStore_PSA_helpers.c
@@ -189,6 +184,7 @@ if(CONFIG_HAS_CC35XX_SDK)
         source/ti/drivers/ECDH.c
         source/ti/drivers/ECDSA.c
         source/ti/drivers/SHA2.c
+        source/ti/drivers/cryptoutils/cryptokey/CryptoKeyPlaintext.c
         source/ti/drivers/cryptoutils/hsm/HSMXXF3Utility.c
         source/ti/drivers/aesccm/AESCCMXXF3.c
         source/ti/drivers/aesctr/AESCTRXXF3.c
@@ -199,6 +195,20 @@ if(CONFIG_HAS_CC35XX_SDK)
         source/ti/drivers/sha2/SHA2XXF3HSM.c
       )
     endif()
+    if(CONFIG_TI_CC35XX_HSM_ITS OR CONFIG_WIFI_TI_CC35XX)
+      if(CONFIG_CC35XXE_GENERATE_FLASH_MAP_CONFIG)
+        set(ti_flash_map_config_source "${ZEPHYR_BINARY_DIR}/ti_flash_map_config.c")
+      endif()
+
+      zephyr_include_directories(
+        kernel/zephyr/dpl
+      )
+      if(ti_flash_map_config_source)
+        zephyr_library_sources(${ti_flash_map_config_source})
+      else()
+        zephyr_library_sources(kernel/zephyr/dpl/ti_flash_map_config.c)
+      endif()
+    endif()
     if(CONFIG_WIFI_TI_CC35XX)
       zephyr_include_directories(
         kernel/zephyr/dpl
@@ -207,7 +217,6 @@ if(CONFIG_HAS_CC35XX_SDK)
         kernel/zephyr/dpl/osi_dpl.c
         kernel/zephyr/dpl/osi_filesystem.c
         kernel/zephyr/dpl/osi_term.c
-        kernel/zephyr/dpl/ti_flash_map_config.c
       )
     endif()
   endif()
