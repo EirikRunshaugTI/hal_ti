@@ -365,6 +365,42 @@ __STATIC_INLINE void LPCMPSetDividerPath(uint32_t path)
 
 //*****************************************************************************
 //
+//! \brief Disables LPCMP output at device pin.
+//!
+//! This function disables LPCMP output at device pin.
+//
+//*****************************************************************************
+__STATIC_INLINE void LPCMPDisableOutputAtPin(void)
+{
+    HWREG(SYS0_BASE + SYS0_O_LPCMPCFG) &= ~SYS0_LPCMPCFG_COUTEN_EN;
+}
+
+//*****************************************************************************
+//
+//! \brief Disables LPCMP output at device pin.
+//!
+//! This function disables LPCMP output at device pin.
+//
+//*****************************************************************************
+__STATIC_INLINE void LPCMPEnableOutputAtPin(void)
+{
+    HWREG(SYS0_BASE + SYS0_O_LPCMPCFG) |= SYS0_LPCMPCFG_COUTEN_EN;
+}
+
+//*****************************************************************************
+//
+//! \brief Check if event flag is set.
+//!
+//! This function checks if the LPCMP event flag is set.
+//
+//*****************************************************************************
+__STATIC_INLINE bool LPCMPEventFlagIsSet(void)
+{
+    return ( (bool)(HWREG(SYS0_BASE + SYS0_O_LPCMPCFG) & SYS0_LPCMPCFG_EVTIFG_M) );
+}
+
+//*****************************************************************************
+//
 // Mark the end of the C bindings section for C++ compilers.
 //
 //*****************************************************************************
