@@ -19,7 +19,7 @@
 #include <ti/drivers/dpl/ClockP.h>
 #include <ti/drivers/dpl/HwiP.h>
 
-#ifdef CONFIG_DYNAMIC_DPL_OBJECTS
+#ifdef CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS
 /* We can't easily dynamically allocate kernel objects */
 #define DPL_MAX_MSGQS 4
 K_MEM_SLAB_DEFINE(msgq_slab, sizeof(struct k_msgq) , DPL_MAX_MSGQS, MEM_ALIGN);
@@ -71,7 +71,7 @@ void MessageQueueP_delete(MessageQueueP_Handle handle)
         dpl_msgq_pool_free(msgq);
     }
 }
-#endif  /* CONFIG_DYNAMIC_DPL_OBJECTS */
+#endif  /* CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS */
 
 /*
  *  ======== MessageQueueP_construct ========
