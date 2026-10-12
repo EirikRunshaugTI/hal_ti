@@ -21,7 +21,7 @@
 #include <ti/drivers/dpl/ClockP.h>
 #include <ti/drivers/dpl/HwiP.h>
 
-#if (defined(CONFIG_DYNAMIC_DPL_OBJECTS) && defined(CONFIG_DYNAMIC_THREAD) && defined(CONFIG_DYNAMIC_THREAD_ALLOC) && defined(CONFIG_THREAD_STACK_INFO))
+#if (defined(CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS) && defined(CONFIG_DYNAMIC_THREAD) && defined(CONFIG_DYNAMIC_THREAD_ALLOC) && defined(CONFIG_THREAD_STACK_INFO))
     #define DYNAMIC_THREADS
 #endif
 

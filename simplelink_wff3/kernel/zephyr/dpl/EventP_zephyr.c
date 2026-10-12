@@ -19,7 +19,7 @@
 #include <ti/drivers/dpl/ClockP.h>
 #include <ti/drivers/dpl/HwiP.h>
 
-#ifdef CONFIG_DYNAMIC_DPL_OBJECTS
+#ifdef CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS
 /* We can't easily dynamically allocate kernel objects */
 #define DPL_MAX_EVENTS 5
 K_MEM_SLAB_DEFINE(event_slab, sizeof(struct k_event), DPL_MAX_EVENTS,\
@@ -65,7 +65,7 @@ void EventP_delete(EventP_Handle handle)
     }
 }
 
-#endif /* CONFIG_DYNAMIC_DPL_OBJECTS */
+#endif /* CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS */
 
 /*
  *  ======== EventP_construct ========

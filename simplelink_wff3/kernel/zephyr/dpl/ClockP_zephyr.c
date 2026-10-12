@@ -94,7 +94,7 @@ static void expiry_fxn(struct k_timer *timer_id)
     obj->clock_fxn(obj->arg);
 }
 
-#ifdef CONFIG_DYNAMIC_DPL_OBJECTS
+#ifdef CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS
 
 /* We can't easily dynamically allocate kernel objects so we use memory slabs */
 #define DPL_MAX_CLOCKS 24
@@ -144,7 +144,7 @@ void ClockP_delete(ClockP_Handle handle)
     dpl_clock_pool_free((ClockP_Obj*) handle);
 }
 
-#endif /* CONFIG_DYNAMIC_DPL_OBJECTS */
+#endif /* CONFIG_TI_SIMPLELINK_DYNAMIC_DPL_OBJECTS */
 
 /*
  *  ======== ClockP_construct ========
