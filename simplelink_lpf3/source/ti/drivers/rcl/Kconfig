@@ -44,7 +44,7 @@ config RCL_RF_SETTING_PREGEN
 
 menu "Regulatory Domain Selection"
 	depends on RCL_DRIVER || RCL_DRIVER_INTERNAL
-	depends on SOC_CC2755P10 || SOC_CC2755R10 || SOC_CC2745R10_Q1 || SOC_CC2755P20
+	depends on SOC_CC2755P10 || SOC_CC2755R10 || SOC_CC2755R7 || SOC_CC2745R10_Q1 || SOC_CC2755P20
 
 config RCL_REGULATORY_DOMAIN_ETSI
 	bool "ETSI: European Telecommunications Standards Institute (Europe)"
