@@ -104,6 +104,10 @@ if(CONFIG_HAS_CC27XXX10_SDK OR CONFIG_HAS_CC27XXX20_SDK)
     zephyr_compile_definitions(DeviceFamily_CC27XXX10 ${COMPILER})
   endif()
 
+  if(CONFIG_SOC_CC2755R7)
+    zephyr_compile_definitions(DeviceFamily_CC27XXX10 ${COMPILER})
+  endif()
+
   if(CONFIG_SOC_CC2755R10)
     zephyr_compile_definitions(DeviceFamily_CC27XXX10 ${COMPILER})
   endif()
