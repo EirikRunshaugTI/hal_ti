@@ -878,7 +878,9 @@ extern char *llCtrl_BleLogStrings[];
 /*
 ** Miscellaneous
 */
+#ifndef BITS_PER_BYTE
 #define BITS_PER_BYTE                                  8
+#endif
 #define BYTES_PER_WORD                                 4
 
 // HCI Connection Complete Roles
