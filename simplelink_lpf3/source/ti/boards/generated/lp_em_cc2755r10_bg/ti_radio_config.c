@@ -2,12 +2,12 @@
  *  ======== ti_radio_config.c ========
  *  Configured RadioConfig module definitions
  *
- *  DO NOT EDIT - This file is generated for the CC2745R10RHAQ1
+ *  DO NOT EDIT - This file is generated for the CC2755R105YCJ
  *  by the SysConfig tool.
  *
  *  Tool Name:           RadioConfig 8
  *  Tool Version:        9.11.00.02_ga
- *  RF Settings Version: 
+ *  RF Settings Version:
  */
 
 #include "ti_radio_config.h"
@@ -116,9 +116,9 @@ const LRF_Config LRF_configAdcNoise = {
 // Configuration: Common
 static const uint32_t LRF_commonRegConfig[] =
 {
-    0x0000003D,                     // Segment length = 61
+    0x0000003F,                     // Segment length = 63
     0x0008A001,                     //   Data structure 32-bit region (start byte position = 8, count = 2)
-    (uint32_t) &LRF_txPowerTable,   //     LRF_swParam : txPowerTable
+    (uint32_t) &LRF_txPowerTableBle,//     LRF_swParam : txPowerTable
     (uint32_t) &(fcfg->appTrims),   //     LRF_swParam : trimDef
     0x14502001,                     //   HW 32-bit region (start address = 0x1450, count = 2)
     0x22000000,                     //     LRFDPBE.POLY0H                LRFDPBE.POLY0L
@@ -131,13 +131,15 @@ static const uint32_t LRF_commonRegConfig[] =
     0x00020004,                     //     LRFDPBE.TXFWBTHRS             LRFDPBE.RXFRBTHRS
     0x10DC1001,                     //   HW 16-bit region (start address = 0x10DC, count = 2)
     0x0B0B0202,                     //     LRFDPBE.TIMPRE                LRFDPBE.TIMCTL
-    0x0000300A,                     //   HW sparse region (address/value pairs, count = 11)
+    0x0000300C,                     //   HW sparse region (address/value pairs, count = 13)
     0x20C00003,                     //     LRFDMDM.ADCDIGCONF
     0x20C8001F,                     //     LRFDMDM.MODSYMMAP0
     0x20F00000,                     //     LRFDMDM.DEMIQMC0
     0x20F80080,                     //     LRFDMDM.DEMDSBU2
     0x21000000,                     //     LRFDMDM.DEMFIDC0
     0x21480000,                     //     LRFDMDM.MODCTRL
+    0x21840000,                     //     LRFDMDM.DEMDEBUG
+    0x22480000,                     //     LRFDMDM.GPOCTRL0
     0x30840000,                     //     LRFDRFE.MAGNTHRCFG
     0x308C0000,                     //     LRFDRFE.RSSIOFFSET
     0x30AC0000,                     //     LRFDRFE.SPARE4
@@ -212,8 +214,8 @@ static const uint32_t LRF_subPhy1MbpsCodedRegConfig[] =
 {
     0x00014009,                     // Segment length = 9
     0x0000A001,                     //   Data structure 32-bit region (start byte position = 0, count = 2)
-    (uint32_t) &LRF_swConfig1Mbps,  //     LRF_swParam : swConfig
-    (uint32_t) &LRF_txPowerLimitTable1Mbps,//     LRF_swParam : txPowerLimitTable
+    (uint32_t) &LRF_swConfig1MbpsBle,//     LRF_swParam : swConfig
+    (uint32_t) &LRF_txPowerLimitTable1MbpsBle,//     LRF_swParam : txPowerLimitTable
     0x00003002,                     //   HW sparse region (address/value pairs, count = 3)
     0x20D44000,                     //     LRFDMDM.BAUD
     0x20E00387,                     //     LRFDMDM.DEMMISC0
@@ -255,8 +257,8 @@ static const uint32_t LRF_subPhy2MbpsRegConfig[] =
 {
     0x00010013,                     // Segment length = 19
     0x0000A001,                     //   Data structure 32-bit region (start byte position = 0, count = 2)
-    (uint32_t) &LRF_swConfig2Mbps,  //     LRF_swParam : swConfig
-    (uint32_t) &LRF_txPowerLimitTable2Mbps,//     LRF_swParam : txPowerLimitTable
+    (uint32_t) &LRF_swConfig2MbpsBle,//     LRF_swParam : swConfig
+    (uint32_t) &LRF_txPowerLimitTable2MbpsBle,//     LRF_swParam : txPowerLimitTable
     0x00003007,                     //   HW sparse region (address/value pairs, count = 8)
     0x1090800F,                     //     LRFDPBE.MDMCMDPAR0
     0x20C40017,                     //     LRFDMDM.MODPRECTRL
@@ -336,7 +338,7 @@ static const uint32_t LRF_codedTxRateS2RegConfig[] =
 
 
 // LRF register configuration list
-static const LRF_RegConfigList LRF_regConfigList = {
+static const LRF_RegConfigList LRF_regConfigListBle = {
     .numEntries = 9,
     .entries = {
         (LRF_ConfigWord*)LRF_commonRegConfig,
@@ -352,43 +354,43 @@ static const LRF_RegConfigList LRF_regConfigList = {
 };
 
 // LRF_TxShape data structure
-const LRF_TxShape LRF_shapeBaseGfsk067 = {
+const LRF_TxShape LRF_shapeBaseGfsk067Ble = {
     .scale = 0x0FDE2,
     .numCoeff = 0x0011,
     .coeff = { 0x01, 0x02, 0x05, 0x0A, 0x14, 0x22, 0x37, 0x52, 0x71, 0x91, 0xB0, 0xCB, 0xE0, 0xEE, 0xF8, 0xFD, 0xFF}
 };
 
 // LRF_TxShape data structure
-const LRF_TxShape LRF_shapeBaseGfsk05 = {
+const LRF_TxShape LRF_shapeBaseGfsk05Ble = {
     .scale = 0x0F183,
     .numCoeff = 0x0014,
     .coeff = { 0x01, 0x02, 0x03, 0x06, 0x0A, 0x11, 0x1A, 0x27, 0x37, 0x4B, 0x62, 0x7B, 0x94, 0xAD, 0xC4, 0xD8, 0xE7, 0xF3, 0xFB, 0xFF}
 };
 
 // LRF_SwConfig data structure
-const LRF_SwConfig LRF_swConfig1Mbps = {
+const LRF_SwConfig LRF_swConfig1MbpsBle = {
     .rxIntFrequency = 1000000,
     .rxFrequencyOffset = 0,
     .txFrequencyOffset = 1000000,
     .modFrequencyDeviation = 0x0003D090,
-    .txShape = &LRF_shapeBaseGfsk067,
+    .txShape = &LRF_shapeBaseGfsk067Ble,
     .bwIndex = 0x00,
     .bwIndexDither = 0x01
 };
 
 // LRF_SwConfig data structure
-const LRF_SwConfig LRF_swConfig2Mbps = {
+const LRF_SwConfig LRF_swConfig2MbpsBle = {
     .rxIntFrequency = 850000,
     .rxFrequencyOffset = 0,
     .txFrequencyOffset = 850000,
     .modFrequencyDeviation = 0x0007A120,
-    .txShape = &LRF_shapeBaseGfsk05,
+    .txShape = &LRF_shapeBaseGfsk05Ble,
     .bwIndex = 0x01,
     .bwIndexDither = 0x01
 };
 
 // LRF_TxPowerTable data structure
-const LRF_TxPowerTable LRF_txPowerTable = {
+const LRF_TxPowerTable LRF_txPowerTableBle = {
     .numEntries = 0x00000018,
     .powerTable = {
         { .power = { .fraction = 0, .dBm = -20 }, .tempCoeff = 0, .value = { .ibBoost = 0, .ib = 18, .gain = 0, .mode = 0, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
@@ -403,11 +405,11 @@ const LRF_TxPowerTable LRF_txPowerTable = {
         { .power = { .fraction = 0, .dBm = 2 }, .tempCoeff = 45, .value = { .ibBoost = 0, .ib = 42, .gain = 5, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
         { .power = { .fraction = 1, .dBm = 2 }, .tempCoeff = 40, .value = { .ibBoost = 0, .ib = 28, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
         { .power = { .fraction = 0, .dBm = 3 }, .tempCoeff = 45, .value = { .ibBoost = 0, .ib = 33, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
-        { .power = { .fraction = 1, .dBm = 3 }, .tempCoeff = 60, .value = { .ibBoost = 0, .ib = 39, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
-        { .power = { .fraction = 0, .dBm = 4 }, .tempCoeff = 80, .value = { .ibBoost = 0, .ib = 49, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
-        { .power = { .fraction = 1, .dBm = 4 }, .tempCoeff = 95, .value = { .ibBoost = 0, .ib = 34, .gain = 7, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
-        { .power = { .fraction = 0, .dBm = 5 }, .tempCoeff = 150, .value = { .ibBoost = 0, .ib = 63, .gain = 7, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
-        { .power = { .fraction = 1, .dBm = 5 }, .tempCoeff = 5, .value = { .ibBoost = 0, .ib = 46, .gain = 3, .mode = 2, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
+        { .power = { .fraction = 1, .dBm = 3 }, .tempCoeff = 45, .value = { .ibBoost = 0, .ib = 33, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
+        { .power = { .fraction = 0, .dBm = 4 }, .tempCoeff = 60, .value = { .ibBoost = 0, .ib = 39, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
+        { .power = { .fraction = 1, .dBm = 4 }, .tempCoeff = 80, .value = { .ibBoost = 0, .ib = 49, .gain = 6, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
+        { .power = { .fraction = 0, .dBm = 5 }, .tempCoeff = 95, .value = { .ibBoost = 0, .ib = 34, .gain = 7, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
+        { .power = { .fraction = 1, .dBm = 5 }, .tempCoeff = 150, .value = { .ibBoost = 0, .ib = 63, .gain = 7, .mode = 1, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
         { .power = { .fraction = 0, .dBm = 6 }, .tempCoeff = 5, .value = { .ibBoost = 0, .ib = 49, .gain = 3, .mode = 2, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
         { .power = { .fraction = 1, .dBm = 6 }, .tempCoeff = 12, .value = { .ibBoost = 0, .ib = 34, .gain = 4, .mode = 2, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
         { .power = { .fraction = 0, .dBm = 7 }, .tempCoeff = 15, .value = { .ibBoost = 0, .ib = 37, .gain = 4, .mode = 2, .rtrimTxCompCtl = 0, .pa20dBmEsdCtl = 0, .noIfampRfLdoBypass = 0 } },
@@ -419,7 +421,7 @@ const LRF_TxPowerTable LRF_txPowerTable = {
 };
 
 // LRF_TxPowerLimitTable data structure
-const LRF_TxPowerLimitTable LRF_txPowerLimitTable1Mbps = {
+const LRF_TxPowerLimitTable LRF_txPowerLimitTable1MbpsBle = {
     .numEntries = 0x00000005,
     .freqDiv = 0x000F4240,
     .limitTable = {
@@ -432,7 +434,7 @@ const LRF_TxPowerLimitTable LRF_txPowerLimitTable1Mbps = {
 };
 
 // LRF_TxPowerLimitTable data structure
-const LRF_TxPowerLimitTable LRF_txPowerLimitTable2Mbps = {
+const LRF_TxPowerLimitTable LRF_txPowerLimitTable2MbpsBle = {
     .numEntries = 0x00000003,
     .freqDiv = 0x000F4240,
     .limitTable = {
@@ -443,12 +445,9 @@ const LRF_TxPowerLimitTable LRF_txPowerLimitTable2Mbps = {
 };
 
 // LRF_Config data structure
-const LRF_Config LRF_config = {
+const LRF_Config LRF_configBle = {
     .pbeImage = (const LRF_TOPsmImage*) LRF_PBE_binary_ble5,
     .mceImage = (const LRF_TOPsmImage*) LRF_MCE_binary_ble5_phac,
     .rfeImage = (const LRF_TOPsmImage*) LRF_RFE_binary_ble5,
-    .regConfigList = &LRF_regConfigList
+    .regConfigList = &LRF_regConfigListBle
 };
-
-
-
